@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='simple-sidebar.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    
+  </head>
+  <body>
+
+            
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+           
+          <form  class = "sidebar-nav" method="post" action="{{ url_for('home_post') }}" >
+           <br>
+           &nbsp&nbsp&nbsp<label id="headline">Report Builder</label><br><br>
+            
+            <div id="rectangle" >Report Content</div>
+            
+            <div>
+               <label id="step2">Step 1.</label>
+               <label id="domain">Choose customer you are creating a report for </label>
+               <label id="domain">Customer ID: </label>
+               <input type="text"   id="in_customer" placeholder='e.g. 123456'>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </div> 
+            
+             <div>
+                <label id="step2">Step 2.</label>
+                <label id="domain">Enter domain name, ASN , IP address, or email address</label>
+                <input type="text" id="in_domain"  name="domain" placeholder='e.g.domaincasestudyforreport.com'>
+                <button type="submit" class="btn btn-default">Search</button>
+             </div>
+           
+              
+             <div id ="choose_dataset">
+                <div>
+                    <label id="step3">Step 3.</label>
+                    <label id="dataset">Choose data sets to include in the report. The most common ones have been selected
+                        for you by default. More options are available for each data set once added</label>
+                        <br>&nbsp&nbsp
+                   
+                </div>
+            </div>  
+            
+            
+             
+             <div id="popover_id" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 11px;">
+               <div class="popover-content">
+                   <div class="row-fluid">
+                    
+                     <div id ="choose_dataset">
+                       <div>
+                         <input type="checkbox" name="investigate" value="investigate">  Investigate</input>&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="virustotal" value="virustotal">    Virustotal</input><br>
+                              <input type="checkbox" name="shodan" value="shodan">    Shodan</input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="blogsearch" value="blogsearch">    Blog Search</input><br>
+                              <input type="checkbox" name="in_alien" value="in_alien">  Alien Vault</input>
+                       </div>
+                     </div>  
+                   
+                   </div>
+               </div>
+             </div>
+             
+         </form>  
+         <button id="btn_caret" class="btn btn-small" onclick="buttonDatasetClick()"> <span class= "plus">+</span>&nbsp&nbsp  Add data sets
+                     <span id="caret_datasets" class ="caret left" ></span>
+             </button>
+              
+             
+             
+                
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+        <div id="rectangle" >Report Preview</div>
+        
+         <div class="btn_title" >
+            <button id="btn_caret" class="btn btn-small" onclick="buttonTitleClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Title Page
+                <span id="caret_title" class ="caret left" style="margin-top:6px;"></span>
+            </button>
+            <div id = "popover-title" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+               <div class="popover-content">
+                   <div class="row-fluid">
+                        <div class="span4">
+                         <label class="textbox" title="PreparedFor">Prepared For:
+                            <input type="text" id="txt_preparedFor"  name="txt_preparedFor" placeholder='..'>
+                         </label>
+                       </div>
+                       <div class="span4">
+                         <label class="textbox" title="PreparedBy">Prepared By:
+                           <input type="text" id="txt_preparedBy"  name="txt_preparedBy" placeholder='OpenDNS'>
+                         </label>
+                       </div>
+                       <div class="span4">
+                          <label class="textbox" title="PreparedOn">Prepared On:
+                            <input type="text" id="txt_preparedOn"  name="txt_preparedOn" placeholder='date ..'>
+                          </label>
+                       </div>
+                   </div>
+               </div>
+            </div>
+        </div>
+        
+        <div class="btn_exsummary" style="margin-top : 200px; left : 16px;">
+           <button id="btn_caret" class="btn btn-small" onclick="buttonExsummaryClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Executive summary
+              <span id="caret_exsummary" class ="caret" style="margin-top:6px;"></span>
+           </button>
+           <div id = "popover-exsummary" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+              <div class="popover-content">
+                <div class="row-fluid">
+                    <div class="span4">
+                         <label class="text" title="text_exec">The OpenDNS Malicious Activity Report is designed to assist customers in identifying threats to the organization across a 
+                         wide-spectrum of attacks and attackers that may not be identified by their currently deployed security solutions.<br>
+                         The 5 step process starts with simply configuring an organizations recursive DNS to our Global Security Network or by providing DNS log data. Next we collect the data based on your companies DNS traffic by comparing it to our security intelligence that is provided by our Security Graph Platform. After the audit period is over, we have a researcher 
+                         from the OpenDNS Research Labs analyze the data and perform in-depth investigations on key salient attacks. The final steps are to present the data, the corresponding intelligence, the attack dynamics, threats, and make recommendations to the organization on how to improve their security posture.
+                           <br>
+                            <br>  
+                         </label>
+                    </div>
+                </div>
+              </div>
+           </div>
+        </div>
+        
+        <div class="btn_keyoverview" style="margin-top : 200px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Key Discoveries: Overview
+              <span id="caret_icon" class ="caret right" style="margin-top:6px;"></span>
+          </button>
+        </div>
+        
+        <div class="btn_keygraphs1" style="margin-top : 0px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Key Discoveries: Graph - 1
+              <span id="caret_icon" class ="caret right" style="margin-top:6px;"></span>
+          </button>
+        </div>
+        
+        <div class="btn_keygraphs2" style="margin-top : 0px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Key Discoveries: Graph - 2
+              <span id="caret_icon" class ="caret right" style="margin-top:6px;"></span>
+          </button>
+        </div>
+        
+        <div class="btn_security" style="margin-top : 0px; left : 16px;" >
+            <button id="btn_caret" class="btn btn-small"  onclick="buttonClick()" > <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Select Security Incidents
+              <span id="caret_icon" class ="caret" style="margin-top:6px;"></span>
+            </button>
+            <div id = "popover-security" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+                 <div class="popover-content">
+                    <div class="row-fluid">
+                       <div class="span4">
+                         <label class="textbox" title="Domain">Domain:
+                            <input type="text" id="txt_domain"  name="txt_domain" placeholder='militarysurpluspotsandpans.com'>
+                         </label>
+                       </div>
+                       <div class="span4">
+                         <label class="textbox" title="Category">Category:
+                           <input type="text" id="txt_category"  name="txt_domain" placeholder='category name...'>
+                         </label>
+                       </div>
+                       <div class="span4">
+                          <label class="textbox" title="Type">Type:
+                            <input type="text" id="txt_type"  name="txt_domain" placeholder='threat type'>
+                          </label>
+                       </div>
+                       <div class="span4">
+                          <label class="textbox" title="Location">Location:
+                              <input type="text" id="txt_location"  name="txt_domain" placeholder='geo location (hosted)'>
+                          </label>
+                       </div>
+                       <div class="span4">
+                          <label class="textbox" title="AttackName">Attack name:
+                             <input type="text" id="txt_attack"  name="txt_domain" placeholder='attack name...'>
+                          </label>
+                       </div>
+                       <div class="span5">
+                          <label class="textarea" title="DomainDetails">
+                             <textarea  id="txt_domainDetails"  name="txt_domainDetails" placeholder='DOMAIN DETAILS'>DOMAIN DETAILS </textarea>
+                          </label>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+        
+        <div class="btn_recommendations" style="margin-top : 280px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  Recommendations
+              <span id="caret_icon" class ="caret " style="margin-top:6px;"></span>
+          </button>
+          <div id = "popover-recommendations" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+              <div class="popover-content">
+                <div class="row-fluid">
+                   <div class="span4">
+                         <label class="text" title="text_recommendation">Based on our findings, we recommend that McKenna Long & Aldridge perform the following:
+                            Audit the network traffic outlined in this report for the most serious potentially harmful incidents of targeted and data steeling malware.
+                            Investigate the profile of the machines infected in order to determine how they were compromised. This could include patch management, password enforcement, and end-user education.
+                            Investigate and remediate machines that are infected with less nefarious malware such as SPAM bots and Rogue Anti-Virus.
+                            Utilize OpenDNS Investigate for an additional layer of investigative forensics on the aforementioned attacks and other telemetry that may be of interest.
+                            Deploy Umbrella Insights with the following configuration:<br>
+                            <br>
+                            1. Block all security categories<br>
+                            <br>
+                            2. Install the Virtual Appliance for IP or Active Directory Support, which allows McKenna Long & Aldridge to pinpoint the user and internal IP address associated with inbound malware and outbound calls to command & control. <br>
+                            <br>
+                            3. Deploy the Enterprise Roaming Client to all devices that leave the company’s corporate networks. This will allow McKenna Long & Aldridge to extend OpenDNS security and real-time device-level visibility as users and devices leave the hardened perimeter. <br>
+                            <br>
+                            4. Consider using the OpenDNS Platform API to build an integration between the Cisco ASA with anti-malware, and your OpenDNS Umbrella deployment. Such an integration will allow McKenna Long & Aldridge to almost immediately push protection against threats discovered by Cisco to all locations and devices where OpenDNS Umbrella is deployed. <br>
+                             <br> 
+                         </label>
+                    </div>
+                </div>
+              </div>
+           </div>
+        </div>
+        
+        <div class="btn_aboutumbrella" style="margin-top : 200px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  About Umbrella by OpenDNS
+              <span id="caret_icon" class ="caret " style="margin-top:6px;"></span>
+          </button>
+          <div id = "popover-aboutumbrella" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+              <div class="popover-content">
+              <div class="row-fluid">
+                <div class="span4">
+                         <label class="text" title="text_umbrella">Umbrella by OpenDNS is a cloud-delivered, DNS-based enforcement platform. It provides advanced threat protection by directly leveraging the intelligence delivered by the OpenDNS Security Graph. 
+                           <br>
+                           <br>
+                           <strong>Say Goodbye to Security Sacrifices</strong>
+                           Umbrella harnesses the power of both the largest DNS global infrastructure—with 100% uptime since 2006—and the first-of-its-kind Intelligent Proxy. Powered by the OpenDNS Security Graph, Umbrella either transparently routes (1) safe connections to the site’s IP address with zero net new latency, 
+                           (2) malicious connections to our block page server’s IP address or (3) high-risk or suspicious connections to our cloud proxy’s IP address for deeper inspection. 
+                           <br>
+                           <br>
+                           <strong>Protect Any Device, Anywhere</strong>
+                           Cloud-delivered protection for on- and off- network devices without backhauling traffic. 
+                           <br>
+                           <br>
+                           <strong>Protect Any Port, Protocol or App</strong>
+                           DNS-based protection for any Web or non-Web connection to sites distributing malware, controlling botnets or phishing login credentials.
+                           <br>
+                           <br>
+                           <strong>Centralized Control and Visibility</strong>
+                           Umbrella’s Web-based dashboard simplifies deployment and management, provides flexible policy configuration, enforces policies based on location, and delivers aggregated reports at the user, device, group or network level. 
+                           <br>
+                           <br>
+                           <strong>Actionable Insights in Under One Minute</strong>
+                           With zero-touch, DHCP-based provisioning, easy-to-manage security agents for Windows and Mac laptops and iOS devices, and integration with Active Directory, risky users and compromised devices—on and off the network—can be identified in real-time.
+                            <br>
+                              <br>
+                         </label>
+                         
+                    </div>
+              </div>
+           </div>
+        </div>
+        
+        <div class="btn_aboutopendns" style="margin-top : 200px; left : 16px;">
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus"><input type="checkbox" name="select" value="select"></span>&nbsp&nbsp  About OpenDNS Investigate
+              <span id="caret_icon" class ="caret " style="margin-top:6px;"></span>
+          </button>
+          <div id = "popover-aboutopendns" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 16px;">
+              <div class="popover-content">
+                <div class="row-fluid">
+                  <div class="span4">
+                         <label class="text" title="text_umbrella"> The OpenDNS Security Graph is a cloud-based, cyber-attack analytics platform.
+                           <br>
+                           <br>
+                            Built by the OpenDNS Security Labs
+                            The Labs is comprised of data scientists, infrastructure engineers and security researchers. Their mission is to discover and predict sites and locations distributing malware, controlling botnets and phishing login credentials—often before these sites are actively used in cyber-attacks.
+                           <br>
+                           <br>
+                           
+Acquire Proprietary Contextual Data<br>
+The Labs built a proprietary IP reputation systems via our global Anycast-routed network with extensive BGP peering sessions, and a passive DNS database via billions of authoritative lookups daily. The Labs conducts proprietary research on known threats, and builds and participates in threat intelligence sharing communities. 
+                           <br>
+                           <br>
+                           Acquire Proprietary Live Data<br>
+The OpenDNS Global Network and Umbrella enforcement platform is used by over 50 million active users from over 160 countries daily. The result is unrivaled global intelligence and situational awareness with over 1 million malicious and non-malicious Internet events per second.
+
+                           <br>
+                           <br>
+                          Apply Predictive Security Analytics<br>
+The Labs continues to pioneer algorithmic classifications via graph theory and machine learning on a massive volume, velocity and variety of live and contextual data. 
+                           <br>
+                           <br>
+                           Deliver Proactive, Dynamic Intelligence <br>
+Unlike reactive sandboxes, the Security Graph does not need to collect a sample of an attack. And unlike static reputation, the Security Graph is always adapting based on live Internet activity trends and patterns.
+                             <br>
+                              <br>
+                         </label>
+                    </div>
+                </div>
+              </div>
+           </div>
+            
+        </div>
+        
+           
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    
+
+    <!-- Bootstrap Core JavaScript -->
+    
+    <!-- Menu Toggle Script -->
+    <script>
+      
+    
+      $(document).ready(function() {
+        debugger;
+        $('#popover_id').hide();
+       // $('#popover-title').hide();
+        
+       });
+       
+       function buttonDatasetClick() {
+         $('#caret_datasets').removeClass().addClass('caret');
+         $('#popover_id').show();
+       }
+       
+       function buttonTitleClick() {
+          $('#popover-title').show();
+          $('#caret_title').removeClass().addClass('caret');
+       }
+    
+    
+    </script>
+
+</body>
+</html>

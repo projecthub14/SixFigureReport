@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='simple-sidebar.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+  <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+  <script src="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script> 
+</head>
+<body>
+
+   <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+           
+          <form  class = "sidebar-nav" method="post" action="{{ url_for('home_post') }}" >
+           <br>
+           &nbsp&nbsp&nbsp<label id="headline">Report Builder</label><br><br>
+            
+            <div id="rectangle" >Report Content</div>
+            
+            <div>
+               <label id="step2">Step 1.</label>
+               <label id="domain">Choose customer you are creating a report for </label>
+               <label id="domain">Customer ID: </label>
+               <input type="text"   id="in_customer" placeholder='e.g. 123456'>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </div> 
+            
+             <div>
+                <label id="step2">Step 2.</label>
+                <label id="domain">Enter domain name, ASN , IP address, or email address</label>
+                <input type="text" id="in_domain"  name="domain" value={{domain}}>
+                <button type="submit" class="btn btn-default">Search</button>
+             </div>
+           
+              
+             <div id ="choose_dataset">
+                <div>
+                    <label id="step3">Step 3.</label>
+                    <label id="dataset">Choose data sets to include in the report. The most common ones have been selected
+                        for you by default. More options are available for each data set once added</label>
+                        <br>&nbsp&nbsp
+                    
+                </div>
+            </div>  
+            
+           
+             
+             <div id="popover_id" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 11px;">
+               <div class="popover-content">
+                   <div class="row-fluid">
+                     <div id ="choose_dataset">
+                       <div>
+                         <input type="checkbox" name="investigate" value="investigate">  Investigate</input>&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="virustotal" value="virustotal">    Virustotal</input><br>
+                              <input type="checkbox" name="shodan" value="shodan">    Shodan</input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="blogsearch" value="blogsearch">    Blog Search</input><br>
+                              <input type="checkbox" name="in_alien" value="in_alien">  Alien Vault</input>
+                       </div>
+                     </div>  
+                   
+                   </div>
+               </div>
+             </div>
+             
+         </form> 
+          <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus">+</span>&nbsp&nbsp  Add data sets
+                     <span id="caret_icon" class ="caret "></span>
+             </button> 
+        </div>
+        <!-- /#sidebar-wrapper -->
+        
+        
+<!-- Page Content -->
+        <div id="page-content-wrapper">
+         <h2>Virustotal</h2> 
+          <h2>{{domain}} <small>domain information</small></h2> 
+
+<div class="container">
+
+  <h2>Geo Location</h2> 
+  
+  <table  class="table" >
+  
+    <tbody>
+      <tr style="word-wrap:break-word;">
+          <td> <strong>Country  </strong> &nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{results_domain.country}} </td>
+           
+      </tr>
+      <tr style="word-wrap:break-word;">
+      <td> <strong>Autonomous System </strong> &nbsp &nbsp&nbsp  {{results_domain.asn}} ({{results_domain.as_owner}}) </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="container">
+{% if  results_domain.resolutions %}
+  <h2>Passive DNS replication</h2> 
+  <h5>VirusTotal's passive DNS only stores address records. This domain has been seen to resolve to the given IP addresses.</h5> 
+   <table id ="table_virus" class="table table-striped">
+
+    <tbody>
+     {% for item in results_domain.resolutions %}
+      <tr  style="word-wrap:break-word;">
+        <td>{{item.last_resolved}} <a href="{{ url_for('virustotal' , link = item.hostname) }}" target="_blank" /a>{{item.hostname}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+
+<div class="container">
+{% if results_domain.subdomains %}
+  <h2>Observed subdomains</h2> 
+   <table id= "table_virus"  class="table  table-striped" >
+   
+    <tbody>
+     {% for item in results_domain.subdomains %}
+      <tr>
+        <td><a href="{{ url_for('virustotal' , link = item) }}" target="_blank" /a> {{item}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+<div class="container">
+{% if results_domain.domain_siblings %}
+  <h2>Domain Siblings</h2> 
+   <table id= "table_virus"  class="table table-striped" >
+   
+    <tbody>
+     {% for item in results_domain.domain_siblings %}
+      <tr>
+        <td><a href="{{ url_for('virustotal' , link = item) }}" target="_blank" /a> {{item}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+<div class="container">
+{% if  results_domain.detected_urls %}
+  <h2> Latest detected URLs</h2>    
+  <table id= "table_virus"  class="table table-striped" >
+  
+    <tbody>
+     {% for item in results_domain.detected_urls %}
+      <tr>
+        <td>{{item.positives}}/{{item.total}} {{item.scan_date}} <a href="{{ url_for('virustotalUrl', link = item.url) }}" target="_blank" /a>{{item.url}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+<div class="container">
+{% if  results_domain.undetected_downloaded_samples %}
+  <h2> Latest undetected files that were downloaded from this IP address</h2>    
+   <table id= "table_virus"  class="table table-striped" >
+  
+    <tbody>
+     {% for item in results_domain.undetected_downloaded_samples %}
+      <tr>
+        <td>{{item.positives}}/{{item.total}}  {{item.date}} <a href="{{ url_for('virustotalHash' , link = item.sha256) }}" target="_blank" /a>{{item.sha256}} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+
+
+<div class="container">
+{% if  results_domain.detected_communicating_samples %}
+  <h2>Latest detected files that communicate with this IP address</h2>    
+  <table id="table_virus"" class="table table-striped"  style="min-height:300px;">
+  
+    <tbody>
+     {% for item in results_domain.detected_communicating_samples %}
+      <tr>
+        <td>{{item.positives}}/{{item.total}} {{item.date}} <a href="{{ url_for('virustotalHash' , link = item.sha256) }}" target="_blank" /a>{{item.sha256}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+
+<div class="container">
+{% if  results_domain.detected_referrer_samples %}
+  <h2>Latest detected files that embed this IP address in their strings</h2>    
+  <table id="table_virus" class="table table-striped">
+  
+    <tbody>
+     {% for item in results_domain.detected_referrer_samples %}
+      <tr>
+        <td>{{item.positives}}/{{item.total}}  <a href="{{ url_for('virustotalHash' , link = item.sha256) }}" target="_blank" /a> {{item.sha256}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+
+<div class="container">
+{% if results_domain.undetected_referrer_samples %}
+  <h2>Latest undetected files that embed this IP address in their strings</h2>    
+  <table id="table_virus" class="table table-striped" >
+ 
+    <tbody>
+     {% for item in results_domain.undetected_referrer_samples %}
+      <tr>
+        <td>{{item.positives}}/{{item.total}}  <a href="{{ url_for('virustotalHash' , link = item.sha256) }}" target="_blank" /a> {{item.sha256}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+
+</div>
+        <!-- /#page-content-wrapper -->
+
+ </div>
+    <!-- /#wrapper -->
+   <script>  
+     
+  $(document).ready(function() {
+     debugger;
+    $('table.table-bordered').dataTable();
+   } );  
+   
+    </script>  
+  
+
+</body>
+</html>
+

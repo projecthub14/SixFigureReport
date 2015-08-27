@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='simple-sidebar.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div id="wrapper">
+
+         <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+           
+          <form  class = "sidebar-nav" method="post" action="{{ url_for('home_post') }}" >
+           <br>
+           &nbsp&nbsp&nbsp<label id="headline">Report Builder</label><br><br>
+            
+            <div id="rectangle" >Report Content</div>
+            
+            <div>
+               <label id="step2">Step 1.</label>
+               <label id="domain">Choose customer you are creating a report for </label>
+               <label id="domain">Customer ID: </label>
+               <input type="text"   id="in_customer" placeholder='e.g. 123456'>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </div> 
+            
+             <div>
+                <label id="step2">Step 2.</label>
+                <label id="domain">Enter domain name, ASN , IP address, or email address</label>
+                <input type="text" id="in_domain"  name="domain" value={{domain}}>
+                <button type="submit" class="btn btn-default">Search</button>
+             </div>
+           
+              
+             <div id ="choose_dataset">
+                <div>
+                    <label id="step3">Step 3.</label>
+                    <label id="dataset">Choose data sets to include in the report. The most common ones have been selected
+                        for you by default. More options are available for each data set once added</label>
+                        <br>&nbsp&nbsp
+                    
+                </div>
+            </div>  
+            
+            
+             
+             <div id="popover_id" class="popover-container filter-popover-container right"  style="margin-top : 0px; left : 11px;">
+               <div class="popover-content">
+                   <div class="row-fluid">
+                    
+                     <div id ="choose_dataset">
+                       <div>
+                         <input type="checkbox" name="investigate" value="investigate">  Investigate</input>&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="virustotal" value="virustotal">    Virustotal</input><br>
+                              <input type="checkbox" name="shodan" value="shodan">    Shodan</input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                         <input type="checkbox" name="blogsearch" value="blogsearch">    Blog Search</input><br>
+                              <input type="checkbox" name="in_alien" value="in_alien">  Alien Vault</input>
+                       </div>
+                     </div>  
+                   
+                   </div>
+               </div>
+             </div>
+             
+         </form>  
+         <button id="btn_caret" class="btn btn-small" onclick="buttonClick()"> <span class= "plus">+</span>&nbsp&nbsp  Add data sets
+                     <span id="caret_icon" class ="caret "></span>
+             </button>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+  <div class="container">
+  <h2>Features</h2>    
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>TTLs min</td>
+        <td>{{features_obj.ttls_min}}</td>
+      </tr>
+      <tr>
+        <td>TTLs max</td>
+        <td>{{features_obj.ttls_min}}</td>
+      </tr>
+      <tr>
+        <td>TTLs mean</td>
+        <td>{{features_obj.ttls_mean}}</td>
+      </tr>
+      <tr>
+        <td>TTLs median</td>
+        <td>{{features_obj.ttls_median}}</td>
+      </tr>
+      <tr>
+        <td>TTLs standard deviation</td>
+        <td>{{features_obj.ttls_stddev}}</td>
+      </tr>
+      <tr>
+        <td>Country codes</td>
+        <td>{{features_obj.country_codes}}</td>
+      </tr>
+      <tr>
+        <td>Country count</td>
+        <td>{{features_obj.country_count}}</td>
+      </tr>
+      <tr>
+        <td>ASNs</td>
+        <td>{{features_obj.asns}}</td>
+      </tr>
+      <tr>
+        <td>ASNs count</td>
+        <td>{{features_obj.asns_count}}</td>
+      </tr>
+      <tr>
+        <td>Prefixes</td>
+        <td>{{features_obj.prefixes}}</td>
+      </tr>
+      <tr>
+        <td>Prefixes count</td>
+        <td>{{features_obj.prefixes_count}}</td>
+      </tr>
+      <tr>
+        <td>RIPs</td>
+        <td>{{features_obj.rips}}</td>
+      </tr>
+      <tr>
+        <td>RIPs diversity</td>
+        <td>{{features_obj.div_rips}}</td>
+      </tr>
+      <tr>
+        <td>Locations count</td>
+        <td>{{features_obj.locations_count}}</td>
+      </tr>
+      <tr>
+        <td>Sum geo distance</td>
+        <td>{{features_obj.geo_distance_sum}}</td>
+      </tr>
+      <tr>
+        <td>Mean geo distance</td>
+        <td>{{features_obj.geo_distance_mean}}</td>
+      </tr>
+      <tr>
+        <td>Non-routable</td>
+        <td>{{features_obj.non_routable}}</td>
+      </tr>
+      <tr>
+        <td>Mail exchanger</td>
+        <td>{{features_obj.mail_exchanger}}</td>
+      </tr>
+      <tr>
+        <td>Fast flux candidate</td>
+        <td>{{features_obj.ff_candidate}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
+  <h2>IP ADDRESSES</h2>    
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>First Seen</th>
+        <th>Last Seen</th>
+        <th>IPs</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in ip_obj %}
+     <tr>
+        <td>{{item.first_seen}}</td>
+        <td>{{item.last_seen}}</td>
+        <td>{{item.ip_addresses}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+
+<div class="container">
+  <h2>CO-OCCURENCES</h2> 
+  {% for item in cooccurrences_obj %}
+    <span > {{item.id}}</span><span> {{ item.number}} </span>
+  {% endfor %}
+</div>
+
+</div>
+</div>
+  
+ <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script> 
+     <!-- Menu Toggle Script -->
+    
+</body>
+</html>
