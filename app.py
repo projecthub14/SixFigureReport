@@ -12,8 +12,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'F34TF$($e34D';
 
 
-api = shodan.Shodan('oElJI1Y7IafGX5mwn7K1srKwRN092r1R')
-virus_total = VirusTotal('9ca790fe3dde490e8fbb5190aa2b2b2ab2406f31e174eb51c37f74a8f88ef1a6')
+api = shodan.Shodan('**********************************')
+virus_total = VirusTotal('****************************')
 blog = BlogSearch(verbose=True)
 
 
@@ -88,7 +88,7 @@ def virustotalIp(link):
     return render_template('virustotalIp.html',results_domain= results_domain,
                                               domain=link)
 
-alien_obj = OTXv2('0a7c8bb19eb4daac5298a7edd551d1a145da480b34fe6f73c939318dc13b4e1d') 
+alien_obj = OTXv2('******************') 
          
 @app.route('/alienvault')
 def alienvault():
@@ -121,7 +121,7 @@ def virustotalUrl(link):
      
      
      
-investigate_obj = Investigate('29fd7c3b-9d77-49a6-894d-933f0dd0baf8')
+investigate_obj = Investigate('**********************')
 
 @app.route('/investigate')
 def investigate():
