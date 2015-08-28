@@ -16,3 +16,10 @@ Install other dependencies :
 1. sudo pip install requests
 2. sudo pip install shodan
 3. sudo pip install beautifulsoup4
+
+
+Update Key value for :
+1. Shodan.
+2. VirusTotal
+3. alienvault
+4. Investigate
