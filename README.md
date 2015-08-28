@@ -18,7 +18,7 @@ Install other dependencies :
 3. sudo pip install beautifulsoup4
 
 
-Update Key value for :
+Update Key value in app.py for :
 1. Shodan.
 2. VirusTotal
 3. alienvault
